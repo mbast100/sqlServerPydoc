@@ -34,7 +34,6 @@ def get_tables_data(objective):
     
     if objective == "dbInfo":
         
-        print(table_attributes.head(5))
         for i in range(len(table_attributes)):
             variable = table_attributes.iloc[i,2]
             modified_var = re.split("(\d+)",variable)
