@@ -3,7 +3,7 @@
 
 ## What is it ?
 
-An ungoing python tool designed to facilitae data analysis and extraction from a MS SQL server DataBase. 
+An ongoing python tool designed to facilitae data analysis and extraction from a MS SQL server DataBase. 
 
 ## Dpendencies
 
