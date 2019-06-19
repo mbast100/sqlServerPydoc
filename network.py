@@ -13,10 +13,13 @@ from SQLconnection import db
 
 print(related_tables.head(5))
 
-def interaction_db():
+def get_dependencies(**kwargs):
+
     
     if related_tables.empty:
         raise Exception("No related tables in this database")
+    
+
     else:
         v1 = []
         interaction = []
@@ -37,44 +40,51 @@ def interaction_db():
                 interaction.append(temp_array)
             else:
                 continue
-    return pd.DataFrame({"user":v1, "interactions":interaction})
+    
+    return pd.DataFrame({"parent":v1, "dependencies":interaction})
 
-test = interaction_db()
+test = get_dependencies()
 print("test : ","\n",test.head(5))
 
 
-parents = list(related_tables.name.unique())
-interaction = list(related_tables.name_y.unique())
+
 
 
 #print([g.degree(name) for name in parents])
 
 
-plt.figure(figsize=(12,12))
-g = nx.from_pandas_edgelist(related_tables,source = "name", target = "name_y")
-
-layout = nx.spring_layout(g,iterations=50)
-parent_size = [g.degree(parent)*100 for parent in parents]
-nx.draw_networkx_nodes(g, layout, nodelist = parents, node_size=parent_size, node_color ="lightblue")
-
-nx.draw_networkx_nodes(g,layout,nodelist=interaction, node_color = "#cccccc", node_size=150)
-
-nx.draw_networkx_edges(g,layout,width=1,edge_color="#cccccc")
-
-node_labels = dict(zip(parents,parents))
-more_labels = dict(zip(interaction,interaction))
-nx.draw_networkx_labels(g,layout, labels=node_labels)
-nx.draw_networkx_labels(g,layout, labels=more_labels)
-
-plt.axis("off")
-plt.title(db+" database mapping")
-plt.legend(scatterpoints = 1)
-plt.show()
+def map_database():
+    
+    parents = list(related_tables.name.unique())
+    interaction = list(related_tables.name_y.unique())
+    
+    plt.figure(figsize=(11,11))
+    g = nx.from_pandas_edgelist(related_tables,source = "name", target = "name_y")
+    
+    layout = nx.spring_layout(g,k = 1,iterations=100)
+    parent_size = [g.degree(parent)*100 for parent in parents]
+    nx.draw_networkx_nodes(g, layout, nodelist = parents, node_size=parent_size, node_color ="lightblue")
+    
+    nx.draw_networkx_nodes(g,layout,nodelist=interaction, node_color = "#cccccc", node_size=150)
+    
+    nx.draw_networkx_edges(g,layout,width=1,edge_color="#cccccc")
+    
+    node_labels = dict(zip(parents,parents))
+    more_labels = dict(zip(interaction,interaction))
+    nx.draw_networkx_labels(g,layout, labels=node_labels)
+    nx.draw_networkx_labels(g,layout, labels=more_labels)
+    
+    plt.axis("off")
+    plt.title(db+" database mapping")
+    plt.legend(scatterpoints = 1)
+    plt.show()
 
                        
                                               
                        
-                       
+if __name__ =="__main__":
+    
+    map_database()
                        
                        
                        
