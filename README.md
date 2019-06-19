@@ -11,6 +11,7 @@ An ongoing python tool designed to facilitae data analysis and extraction from a
 - Pandas
 - numpy
 - pydoc
+- matplotlib
 
 ---
 table_display_block: true
